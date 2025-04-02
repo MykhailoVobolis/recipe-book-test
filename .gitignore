@@ -1,0 +1,16 @@
+//.gitignore
+
+/node_modules
+
+/dist
+/build
+*.tsbuildinfo
+
+/server/node_modules
+/frontend/node_modules
+/server/dist
+/frontend/build
+
+.vscode
+.DS_Store
+.idea
