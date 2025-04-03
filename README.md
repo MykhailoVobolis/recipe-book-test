@@ -25,8 +25,8 @@ Before starting, ensure you have the following installed:
 1. **Clone the repository**:
 
    ```bash
-   git clone https://github.com/your-username/recipe-book.git
-   cd recipe-book
+   git clone https://github.com/MykhailoVobolis/recipe-book-test.git
+   cd recipe-book-test
    ```
 
 2. **Install dependencies for the server**:
@@ -57,7 +57,7 @@ Before starting, ensure you have the following installed:
 2. Start the server:
 
    ```bash
-   npm start
+   npm run dev
    ```
 
    The server will start on [http://localhost:3000](http://localhost:3000).
@@ -73,7 +73,7 @@ Before starting, ensure you have the following installed:
 2. Start the client:
 
    ```bash
-   npm start
+   npm run dev
    ```
 
    The client will start on [http://localhost:3001](http://localhost:3001).
