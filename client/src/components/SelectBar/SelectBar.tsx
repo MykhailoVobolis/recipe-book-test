@@ -9,7 +9,11 @@ interface SelectBarProps {
   handleIngredientChange: (event: SelectChangeEvent<string>) => void;
   handleCountryChange: (event: SelectChangeEvent<string>) => void;
   handleCategoryChange: (event: SelectChangeEvent<string>) => void;
-  getUniqueValues: (key: string) => string[];
+  uniqueValues: {
+    strArea: string[];
+    strCategory: string[];
+    strIngredient: string[];
+  };
 }
 
 export default function SelectBar({
@@ -19,7 +23,7 @@ export default function SelectBar({
   handleIngredientChange,
   handleCountryChange,
   handleCategoryChange,
-  getUniqueValues,
+  uniqueValues,
 }: SelectBarProps) {
   return (
     <Box sx={{ display: 'flex', gap: 2, flexDirection: 'row', marginBottom: 2 }}>
@@ -28,21 +32,21 @@ export default function SelectBar({
         category="Ingredients"
         value={ingredientFilter}
         onChange={handleIngredientChange}
-        options={getUniqueValues('strIngredient')}
+        options={uniqueValues.strIngredient}
       />
       <FilterSelect
         label="Filter by Country"
         category="Countries"
         value={countryFilter}
         onChange={handleCountryChange}
-        options={getUniqueValues('strArea')}
+        options={uniqueValues.strArea}
       />
       <FilterSelect
         label="Filter by Category"
         category="Categories"
         value={categoryFilter}
         onChange={handleCategoryChange}
-        options={getUniqueValues('strCategory')}
+        options={uniqueValues.strCategory}
       />
     </Box>
   );

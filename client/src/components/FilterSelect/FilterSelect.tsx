@@ -15,11 +15,12 @@ export default function FilterSelect({ label, category, value, onChange, options
       <InputLabel>{label}</InputLabel>
       <Select value={value} onChange={onChange} label={label}>
         <MenuItem value="all">All {category}</MenuItem>
-        {options.map((option, index) => (
-          <MenuItem key={index} value={option}>
-            {option}
-          </MenuItem>
-        ))}
+        {options &&
+          options.map((option, index) => (
+            <MenuItem key={index} value={option}>
+              {option}
+            </MenuItem>
+          ))}
       </Select>
     </FormControl>
   );

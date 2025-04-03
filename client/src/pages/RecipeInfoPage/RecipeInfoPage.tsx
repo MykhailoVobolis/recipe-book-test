@@ -41,8 +41,13 @@ export default function RecipeInfoPage() {
       setLoading(true);
       const response = await api.get<ApiResponse>(`/recipes/by-id/${recipeId}`);
       const fetchedRecipe = response.data.data.meals[0];
-      setRecipe(response.data.data.meals[0]);
+      setRecipe(fetchedRecipe);
       setIngredients(getIngredients(fetchedRecipe));
+
+      if (fetchedRecipe.strCategory) {
+        const categoryResponse = await api.get<ApiResponse>(`/recipes/by-category/${fetchedRecipe.strCategory}`);
+        setRelatedRecipesCategory(categoryResponse.data.data.meals);
+      }
     } catch (error) {
       console.error('Error fetching recipes:', error);
     } finally {
@@ -52,25 +57,7 @@ export default function RecipeInfoPage() {
 
   useEffect(() => {
     fetchRecipeInfo();
-  }, []);
-
-  const fetchRecipesCategory = async (category: string) => {
-    try {
-      setLoading(true);
-      const response = await api.get<ApiResponse>(`/recipes/by-category/${category}`);
-      setRelatedRecipesCategory(response.data.data.meals);
-    } catch (error) {
-      console.error('Error fetching recipes:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    if (recipe && recipe.strCategory) {
-      fetchRecipesCategory(recipe.strCategory);
-    }
-  }, [recipe]);
+  }, [recipeId]);
 
   return loading ? (
     <CircularProgress sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }} />

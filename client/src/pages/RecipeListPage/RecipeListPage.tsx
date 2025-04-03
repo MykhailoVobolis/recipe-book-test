@@ -3,6 +3,7 @@ import { Box, Typography, CircularProgress, SelectChangeEvent } from '@mui/mater
 import SelectBar from '../../components/SelectBar/SelectBar';
 import RecipeList from '../../components/RecipeList/RecipeList';
 import api from '../../helpers/api';
+import { useRecipe } from '../../RecipeContext';
 
 interface ApiResponse {
   data: {
@@ -28,6 +29,17 @@ export default function RecipeListPage() {
   const [countryFilter, setCountryFilter] = useState<string>('all');
   const [categoryFilter, setCategoryFilter] = useState<string>('all');
 
+  const { ingredient, uniqueValues, setUniqueValues } = useRecipe();
+
+  useEffect(() => {
+    if (ingredient && ingredient !== 'all') {
+      setIngredientFilter(ingredient);
+      handleFilterChange('ingredient', ingredient);
+    } else {
+      fetchRecipes();
+    }
+  }, [ingredient]);
+
   const fetchRecipes = async () => {
     try {
       setLoading(true);
@@ -42,7 +54,9 @@ export default function RecipeListPage() {
   };
 
   useEffect(() => {
-    fetchRecipes();
+    if (ingredient === 'all') {
+      fetchRecipes();
+    }
   }, []);
 
   const getUniqueValues = (key: string) => {
@@ -63,6 +77,22 @@ export default function RecipeListPage() {
     });
 
     return Array.from(uniqueValues).sort();
+  };
+
+  useEffect(() => {
+    if (recipes.length > 0) {
+      updateUniqueValues();
+    }
+  }, [recipes]);
+
+  const updateUniqueValues = () => {
+    const uniqueAreaValues = getUniqueValues('strArea');
+    const uniqueCategoryValues = getUniqueValues('strCategory');
+    const uniqueIngredientValues = getUniqueValues('strIngredient');
+
+    setUniqueValues('strArea', uniqueAreaValues);
+    setUniqueValues('strCategory', uniqueCategoryValues);
+    setUniqueValues('strIngredient', uniqueIngredientValues);
   };
 
   const handleFilterChange = async (type: string, value: string) => {
@@ -135,7 +165,7 @@ export default function RecipeListPage() {
         handleIngredientChange={handleIngredientChange}
         handleCountryChange={handleCountryChange}
         handleCategoryChange={handleCategoryChange}
-        getUniqueValues={getUniqueValues}
+        uniqueValues={uniqueValues}
       />
       {loading ? (
         <CircularProgress
