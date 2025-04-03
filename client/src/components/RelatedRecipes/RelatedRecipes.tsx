@@ -22,7 +22,7 @@ export default function RelatedRecipes({ relatedRecipes }: RelatedRecipesProps) 
             <ListItem
               key={recipe.idMeal}
               component={Link}
-              to={`/recipe/${recipe.idMeal}`}
+              to={`/information/${recipe.idMeal}`}
               sx={{
                 textDecoration: 'none',
                 '&:hover': {
