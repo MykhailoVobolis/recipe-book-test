@@ -29,16 +29,23 @@ export default function RecipeListPage() {
   const [countryFilter, setCountryFilter] = useState<string>('all');
   const [categoryFilter, setCategoryFilter] = useState<string>('all');
 
-  const { ingredient, uniqueValues, setUniqueValues } = useRecipe();
+  const { ingredient, recipeArea, uniqueValues, setUniqueValues } = useRecipe();
 
   useEffect(() => {
-    if (ingredient && ingredient !== 'all') {
-      setIngredientFilter(ingredient);
-      handleFilterChange('ingredient', ingredient);
-    } else {
+    if (ingredient === null && recipeArea === null) {
       fetchRecipes();
+    } else {
+      if (ingredient && ingredient !== 'all') {
+        setIngredientFilter(ingredient);
+        handleFilterChange('ingredient', ingredient);
+      }
+
+      if (recipeArea && recipeArea !== 'all') {
+        setCountryFilter(recipeArea);
+        handleFilterChange('country', recipeArea);
+      }
     }
-  }, [ingredient]);
+  }, [ingredient, recipeArea]);
 
   const fetchRecipes = async () => {
     try {
@@ -52,12 +59,6 @@ export default function RecipeListPage() {
       setLoading(false);
     }
   };
-
-  useEffect(() => {
-    if (ingredient === 'all') {
-      fetchRecipes();
-    }
-  }, []);
 
   const getUniqueValues = (key: string) => {
     const uniqueValues = new Set<string>();
@@ -119,6 +120,7 @@ export default function RecipeListPage() {
       }
 
       const response = await api.get<ApiResponse>(url);
+
       setFilteredRecipes(response.data.data.meals);
     } catch (error) {
       console.error('Error fetching filtered recipes:', error);

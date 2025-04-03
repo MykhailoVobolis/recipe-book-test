@@ -1,8 +1,9 @@
 import { Box, Typography, CircularProgress, Divider } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import Ingredients from '../../components/Ingredients/Ingredients';
 import RelatedRecipes from '../../components/RelatedRecipes/RelatedRecipes';
+import RecipeArea from '../../components/RecipeArea/RecipeArea';
 import Instructions from '../../components/Instructions/Instructions';
 import api from '../../helpers/api';
 
@@ -75,11 +76,7 @@ export default function RecipeInfoPage() {
           <Typography variant="h3" align="center" gutterBottom>
             {recipe.strMeal}
           </Typography>
-          <Typography variant="h5" align="center" gutterBottom>
-            <Link to={`/recipes/country/${recipe.strArea}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-              {recipe.strArea}
-            </Link>
-          </Typography>
+          <RecipeArea recipeArea={recipe.strArea} />
           <Divider sx={{ marginBottom: 3 }} />
           <Instructions instructions={recipe.strInstructions} />
           <Divider sx={{ marginBottom: 3 }} />

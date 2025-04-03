@@ -3,6 +3,8 @@ import React, { createContext, useState, useContext, ReactNode } from 'react';
 interface RecipeContextType {
   ingredient: string | null;
   setIngredient: (ingredient: string) => void;
+  recipeArea: string | null;
+  setRecipeArea: (ingredient: string) => void;
   uniqueValues: { [key: string]: string[] };
   setUniqueValues: (key: string, values: string[]) => void;
 }
@@ -11,6 +13,7 @@ const RecipeContext = createContext<RecipeContextType | undefined>(undefined);
 
 export const RecipeProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [ingredient, setIngredient] = useState<string | null>(null);
+  const [recipeArea, setRecipeArea] = useState<string | null>(null);
   const [uniqueValues, setUniqueValues] = useState<{
     strArea: string[];
     strCategory: string[];
@@ -29,7 +32,16 @@ export const RecipeProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   };
 
   return (
-    <RecipeContext.Provider value={{ ingredient, setIngredient, uniqueValues, setUniqueValues: updateUniqueValues }}>
+    <RecipeContext.Provider
+      value={{
+        ingredient,
+        setIngredient,
+        recipeArea,
+        setRecipeArea,
+        uniqueValues,
+        setUniqueValues: updateUniqueValues,
+      }}
+    >
       {children}
     </RecipeContext.Provider>
   );
