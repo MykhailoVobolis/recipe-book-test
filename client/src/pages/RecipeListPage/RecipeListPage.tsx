@@ -20,6 +20,10 @@ interface Recipe {
 
 export type RenderRecipeList = Recipe[];
 
+const api = axios.create({
+  baseURL: import.meta.env.VITE_API_URL,
+});
+
 export default function RecipeListPage() {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [filteredRecipes, setFilteredRecipes] = useState<Recipe[]>([]);
@@ -31,7 +35,7 @@ export default function RecipeListPage() {
   const fetchRecipes = async () => {
     try {
       setLoading(true);
-      const response = await axios.get<ApiResponse>(`http://localhost:3000/recipes`);
+      const response = await api.get<ApiResponse>(`/recipes`);
       setFilteredRecipes([]);
       setRecipes(response.data.data.meals);
     } catch (error) {
@@ -76,19 +80,19 @@ export default function RecipeListPage() {
       let url = '';
       switch (type) {
         case 'ingredient':
-          url = `http://localhost:3000/recipes/by-ingredient/${value}`;
+          url = `/recipes/by-ingredient/${value}`;
           break;
         case 'country':
-          url = `http://localhost:3000/recipes/by-country/${value}`;
+          url = `/recipes/by-country/${value}`;
           break;
         case 'category':
-          url = `http://localhost:3000/recipes/by-category/${value}`;
+          url = `/recipes/by-category/${value}`;
           break;
         default:
           throw new Error('Unknown filter type');
       }
 
-      const response = await axios.get<ApiResponse>(url);
+      const response = await api.get<ApiResponse>(url);
       setFilteredRecipes(response.data.data.meals);
     } catch (error) {
       console.error('Error fetching filtered recipes:', error);
