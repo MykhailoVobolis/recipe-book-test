@@ -1,8 +1,8 @@
-import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { Box, Typography, CircularProgress, SelectChangeEvent } from '@mui/material';
 import SelectBar from '../../components/SelectBar/SelectBar';
 import RecipeList from '../../components/RecipeList/RecipeList';
+import api from '../../helpers/api';
 
 interface ApiResponse {
   data: {
@@ -19,10 +19,6 @@ interface Recipe {
 }
 
 export type RenderRecipeList = Recipe[];
-
-const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
-});
 
 export default function RecipeListPage() {
   const [recipes, setRecipes] = useState<Recipe[]>([]);

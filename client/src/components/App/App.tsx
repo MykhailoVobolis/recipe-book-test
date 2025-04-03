@@ -9,7 +9,7 @@ export default function App() {
     <Suspense fallback={null}>
       <Routes>
         <Route path="/" element={<RecipeListPage />} />
-        <Route path="/information" element={<RecipeInfoPage />} />
+        <Route path="/information/:recipeId" element={<RecipeInfoPage />} />
       </Routes>
     </Suspense>
   );
