@@ -29,10 +29,11 @@ export default function RecipeListPage() {
   const [countryFilter, setCountryFilter] = useState<string>('all');
   const [categoryFilter, setCategoryFilter] = useState<string>('all');
 
-  const { ingredient, recipeArea, uniqueValues, setUniqueValues } = useRecipe();
+  const { ingredient, setIngredient, recipeArea, setRecipeArea, category, setCategory, uniqueValues, setUniqueValues } =
+    useRecipe();
 
   useEffect(() => {
-    if (ingredient === null && recipeArea === null) {
+    if (ingredient === null && recipeArea === null && category === null) {
       fetchRecipes();
     } else {
       if (ingredient && ingredient !== 'all') {
@@ -44,8 +45,13 @@ export default function RecipeListPage() {
         setCountryFilter(recipeArea);
         handleFilterChange('country', recipeArea);
       }
+
+      if (category && category !== 'all') {
+        setCategoryFilter(category);
+        handleFilterChange('category', category);
+      }
     }
-  }, [ingredient, recipeArea]);
+  }, [ingredient, recipeArea, category]);
 
   const fetchRecipes = async () => {
     try {
@@ -131,6 +137,7 @@ export default function RecipeListPage() {
 
   const handleIngredientChange = (event: SelectChangeEvent<string>) => {
     const selectedIngredient = event.target.value;
+    setIngredient(selectedIngredient);
     setIngredientFilter(selectedIngredient);
     setCountryFilter('all');
     setCategoryFilter('all');
@@ -139,6 +146,7 @@ export default function RecipeListPage() {
 
   const handleCountryChange = (event: SelectChangeEvent<string>) => {
     const selectedCountry = event.target.value;
+    setRecipeArea(selectedCountry);
     setCountryFilter(selectedCountry);
     setIngredientFilter('all');
     setCategoryFilter('all');
@@ -147,6 +155,7 @@ export default function RecipeListPage() {
 
   const handleCategoryChange = (event: SelectChangeEvent<string>) => {
     const selectedCategory = event.target.value;
+    setCategory(selectedCategory);
     setCategoryFilter(selectedCategory);
     setIngredientFilter('all');
     setCountryFilter('all');
